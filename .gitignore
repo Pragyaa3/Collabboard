@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.production.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# TypeScript
+*.tsbuildinfo
+
+# Coverage
+coverage/
+
+# Build folders
+dist/
+build/
+
+# Docker volumes
+postgres-data/
+
+# Temporary files
+tmp/
+temp/
+
+# Package lock files (optional)
+# package-lock.json
+
+# Frontend Vite cache
+.vite/
+
+# Backend generated files
+backend/dist/
+
+# Frontend generated files
+frontend/dist/
