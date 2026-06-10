@@ -1,13 +1,15 @@
-FROM node:20
+FROM node:20-alpine
 
 WORKDIR /app
 
 COPY package*.json ./
+RUN npm ci
 
-RUN npm install
+COPY tsconfig.json ./
+COPY src ./src
 
-COPY . .
+RUN npm run build
 
 EXPOSE 4000
 
-CMD ["npm","run","dev"]
+CMD ["node", "dist/index.js"]
