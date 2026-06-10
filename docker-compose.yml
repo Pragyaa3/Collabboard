@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: collabboard
+      POSTGRES_USER: collabboard
+      POSTGRES_PASSWORD: collabboard_secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0
+    command: start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./docker/realm-export.json:/opt/keycloak/data/import/realm-export.json
