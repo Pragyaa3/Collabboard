@@ -1,25 +1,88 @@
 version: "3.9"
 
 services:
-
   postgres:
-    image: postgres:15
+    image: postgres:15-alpine
+    container_name: collabboard_postgres
+    restart: unless-stopped
     environment:
-      POSTGRES_DB: collabboard
       POSTGRES_USER: collabboard
       POSTGRES_PASSWORD: collabboard_secret
+      POSTGRES_DB: collabboard
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
-    volumes:
-      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - collabboard_net
 
   keycloak:
     image: quay.io/keycloak/keycloak:23.0
-    command: start-dev --import-realm
+    container_name: collabboard_keycloak
+    restart: unless-stopped
     environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: collabboard
+      KC_DB_PASSWORD: collabboard_secret
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-    ports:
-      - "8080:8080"
+      KC_HOSTNAME_STRICT: "false"
+      KC_HTTP_ENABLED: "true"
+    command: start-dev --import-realm
     volumes:
       - ./docker/realm-export.json:/opt/keycloak/data/import/realm-export.json
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - collabboard_net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: collabboard_backend
+    restart: unless-stopped
+    environment:
+      PORT: 4000
+      DATABASE_URL: postgresql://collabboard:collabboard_secret@postgres:5432/collabboard
+      KEYCLOAK_URL: http://keycloak:8080
+      KEYCLOAK_REALM: collabboard
+      KEYCLOAK_CLIENT_ID: collabboard-backend
+      CORS_ORIGIN: http://localhost:3000
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+      - keycloak
+    networks:
+      - collabboard_net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: collabboard_frontend
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: http://localhost:4000
+      VITE_WS_URL: ws://localhost:4000
+      VITE_KEYCLOAK_URL: http://localhost:8080
+      VITE_KEYCLOAK_REALM: collabboard
+      VITE_KEYCLOAK_CLIENT_ID: collabboard-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - collabboard_net
+
+volumes:
+  postgres_data:
+
+networks:
+  collabboard_net:
+    driver: bridge
