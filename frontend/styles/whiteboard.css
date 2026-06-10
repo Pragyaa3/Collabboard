@@ -1,0 +1,139 @@
+.wb-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--cb-bg);
+}
+
+/* ── Top nav ── */
+.wb-nav {
+  height: 48px;
+  flex-shrink: 0;
+  background: var(--cb-surface);
+  border-bottom: 1px solid var(--cb-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  gap: 12px;
+}
+
+.wb-nav-left,
+.wb-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wb-session-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cb-text);
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wb-nav-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: var(--cb-text-muted);
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: background 0.15s, color 0.15s;
+}
+.wb-nav-btn:hover { background: var(--cb-surface-2); color: var(--cb-text); }
+.wb-nav-btn.active {
+  background: var(--cb-accent-subtle);
+  color: var(--cb-accent);
+}
+
+.wb-user-badge {
+  background: var(--cb-surface-2);
+  border: 1px solid var(--cb-border);
+  border-radius: 16px;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: var(--cb-text-muted);
+}
+
+/* ── Body ── */
+.wb-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.wb-sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  border-right: 1px solid var(--cb-border);
+}
+
+.wb-chat {
+  width: 260px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* ── Canvas area ── */
+.wb-canvas-area {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #e8e8e8;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.wb-canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Remote cursor */
+.remote-cursor {
+  position: absolute;
+  pointer-events: none;
+  transform: translate(-2px, -2px);
+  z-index: 200;
+}
+
+.remote-cursor svg {
+  display: block;
+}
+
+.remote-cursor-label {
+  position: absolute;
+  top: 14px;
+  left: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .wb-sidebar { display: none; }
+  .wb-chat { width: 220px; }
+  .wb-session-name { max-width: 120px; }
+}
+
+@media (max-width: 480px) {
+  .wb-chat { display: none; }
+}
