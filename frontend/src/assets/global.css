@@ -1,0 +1,135 @@
+/* ================================================
+   CollabBoard – Global Design System
+   Dark professional theme inspired by Figma / Miro
+   ================================================ */
+
+:root {
+  --cb-bg: #0f1117;
+  --cb-surface: #1a1d27;
+  --cb-surface-2: #22263a;
+  --cb-border: #2e3347;
+  --cb-accent: #5b63f5;
+  --cb-accent-hover: #6e75f7;
+  --cb-accent-subtle: rgba(91, 99, 245, 0.12);
+  --cb-text: #e8eaf0;
+  --cb-text-muted: #8891a8;
+  --cb-danger: #e05561;
+  --cb-success: #3dd68c;
+  --cb-warning: #f5a623;
+  --cb-canvas-bg: #f8f8f8;
+  --cb-radius: 8px;
+  --cb-radius-lg: 12px;
+  --cb-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --cb-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--cb-bg);
+  color: var(--cb-text);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--cb-surface); }
+::-webkit-scrollbar-thumb { background: var(--cb-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--cb-text-muted); }
+
+/* Bootstrap overrides */
+.btn-primary {
+  background: var(--cb-accent);
+  border-color: var(--cb-accent);
+  font-weight: 500;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+  background: var(--cb-accent-hover);
+  border-color: var(--cb-accent-hover);
+}
+.btn-outline-secondary {
+  border-color: var(--cb-border);
+  color: var(--cb-text-muted);
+}
+.btn-outline-secondary:hover {
+  background: var(--cb-surface-2);
+  border-color: var(--cb-text-muted);
+  color: var(--cb-text);
+}
+
+.form-control,
+.form-select {
+  background: var(--cb-surface-2);
+  border: 1px solid var(--cb-border);
+  color: var(--cb-text);
+  border-radius: var(--cb-radius);
+}
+.form-control:focus,
+.form-select:focus {
+  background: var(--cb-surface-2);
+  border-color: var(--cb-accent);
+  color: var(--cb-text);
+  box-shadow: 0 0 0 3px var(--cb-accent-subtle);
+}
+.form-control::placeholder { color: var(--cb-text-muted); }
+
+.modal-content {
+  background: var(--cb-surface);
+  border: 1px solid var(--cb-border);
+  border-radius: var(--cb-radius-lg);
+  color: var(--cb-text);
+}
+.modal-header {
+  border-bottom: 1px solid var(--cb-border);
+}
+.modal-footer {
+  border-top: 1px solid var(--cb-border);
+}
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* Loading screen */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 16px;
+  background: var(--cb-bg);
+}
+
+.loading-screen .spinner-border {
+  color: var(--cb-accent);
+}
+
+/* Cursor overlay labels */
+.remote-cursor-label {
+  position: absolute;
+  background: var(--cursor-color, #5b63f5);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 9999;
+  transform: translate(10px, 10px);
+}
+
+/* Toast override */
+.toast-container { z-index: 1090; }
